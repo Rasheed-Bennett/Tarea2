@@ -13,6 +13,8 @@ function App() {
   const [semaforoAmarillo, setSemaforoAmarillo] = useState(0)
   const tiempoAmarillo = useRef(0)
   const tiempoVerde = useRef(1)
+  const temporizadorAmarillo = useRef(3)
+  const temporizadorVerde = useRef(6)
   const [semaforo1, setSemaforo1] = useState(semaforoV)
   const [semaforo2, setSemaforo2] = useState(semaforoR)
   const [semaforo3, setSemaforo3] = useState(semaforoR)
@@ -21,7 +23,6 @@ function App() {
   useEffect(() =>{
     const tiempo = setInterval (() => {
       tiempoAmarillo.current = tiempoAmarillo.current + 1;
-      tiempoVerde.current = tiempoVerde.current + 1;
       if (tiempoAmarillo.current >= 3) {
         tiempoAmarillo.current = 0;
         setSemaforoAmarillo((prev) => {
@@ -43,6 +44,13 @@ function App() {
         })
       }
 
+    }, 1000);
+    return () => clearInterval(tiempo);
+  }, [semaforoVerde]);
+
+  useEffect(() =>{
+    const temporizador = setInterval(() =>{
+      tiempoVerde.current = tiempoVerde.current +1
       if (tiempoVerde.current >= 6) {
         tiempoVerde.current = 0;
           switch(semaforoVerde){
@@ -80,8 +88,8 @@ function App() {
           return prev + 1
         })
       }
-    }, 1000);
-    return () => clearInterval(tiempo);
+    }, 1000)
+    return () => clearInterval(temporizador);
   }, [semaforoVerde]);
 
   return (
